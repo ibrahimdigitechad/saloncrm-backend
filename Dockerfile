@@ -3,6 +3,6 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci --include=dev
 COPY . .
-RUN npx tsc
+RUN ./node_modules/.bin/tsc
 EXPOSE 4000
 CMD ["node", "dist/app.js"]
