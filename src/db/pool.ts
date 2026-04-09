@@ -10,13 +10,13 @@ pool.on('error', (err) => {
   process.exit(-1);
 });
 export default pool;
-export async function query(text: string, params?: unknown[]) {
+export async function query<T = any>(text: string, params?: unknown[]): Promise<T[]> {
   const res = await pool.query(text, params);
-  return res.rows;
+  return res.rows as T[];
 }
-export async function queryOne(text: string, params?: unknown[]) {
+export async function queryOne<T = any>(text: string, params?: unknown[]): Promise<T | null> {
   const res = await pool.query(text, params);
-  return res.rows[0] ?? null;
+  return (res.rows[0] as T) ?? null;
 }
 export async function withTransaction<T>(fn: (client: PoolClient) => Promise<T>): Promise<T> {
   const client = await pool.connect();
