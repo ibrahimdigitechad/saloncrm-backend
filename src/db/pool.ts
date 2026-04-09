@@ -11,9 +11,10 @@ pool.on('error', (err) => {
 });
 export default pool;
 export async function query(text: string, params?: unknown[]) {
-  return pool.query(text, params);
+  const res = await pool.query(text, params);
+  return res.rows;
 }
-export async function queryOne<T>(text: string, params?: unknown[]): Promise<T | null> {
+export async function queryOne(text: string, params?: unknown[]) {
   const res = await pool.query(text, params);
   return res.rows[0] ?? null;
 }
